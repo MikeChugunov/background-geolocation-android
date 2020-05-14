@@ -251,6 +251,15 @@ public class LocationServiceImpl extends Service implements ProviderDelegate, Lo
 
         sIsRunning = false;
         super.onDestroy();
+
+        Config config = getConfig();
+
+        if (!config.getStopOnTerminate()) {
+            logger.info("Restart service with intent proxy");
+            LocationServiceProxy serviceProxy = new LocationServiceProxy(getApplicationContext());
+
+            serviceProxy.startForegroundService();
+        }
     }
 
     @Override
